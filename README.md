@@ -142,23 +142,3 @@ The interface uses soft gradients, illustrations, animations, interactive cards,
 
 
 
-
-
-## How It Works
-
-User selects mood
-       ↓
-Mood + preferences collected
-       ↓
-FastAPI processes the request
-       ↓
-Gemini generates personalized content
-       ↓
-Recommendation engine searches:
-   ├── Books → Open Library
-   ├── Articles → AI-generated recommendations
-   └── Videos → YouTube Data API
-       ↓
-Personalized result page
-       ↓
-User can Save or Make Another
