@@ -1,42 +1,30 @@
-import requests
+from google import genai
 
 
-#GEMINI_API_KEY = "your own api key"
+MODEL_NAME = "gemini-3.6-flash"
 
-def query_gemini(prompt,GEMINI_API_KEY):
+
+def query_gemini(prompt, GEMINI_API_KEY):
     """
-    Sends a prompt to Gemini 1.5 Flash and returns the generated text.
+    Send a text prompt to Gemini and return the generated text.
+
+    The function keeps the existing query_gemini(prompt, API) interface so
+    app.py does not need to change during this integration fix.
     """
-
-    url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
-    headers = {
-        "Content-Type": "application/json"
-    }
-    params = {
-        "key": GEMINI_API_KEY
-    }
-    data = {
-        "contents": [
-            {
-                "parts": [
-                    {"text": prompt}
-                ]
-            }
-        ]
-    }
-
     try:
-        response = requests.post(url, headers=headers, params=params, json=data)
+        if not GEMINI_API_KEY:
+            return "❌ Gemini API key is missing. Add 'api_key' to Streamlit secrets."
 
-        if response.status_code == 200:
-            # print(response.json()['candidates'][0]['content']['parts'][0]['text'])
-            return response.json()['candidates'][0]['content']['parts'][0]['text']
-        else:
-            return f"❌ Gemini API Error ({response.status_code}): {response.text}"
-    
+        client = genai.Client(api_key=GEMINI_API_KEY)
+        interaction = client.interactions.create(
+            model=MODEL_NAME,
+            input=prompt,
+        )
+
+        if not interaction.output_text:
+            return "❌ Gemini returned an empty response. Please try again."
+
+        return interaction.output_text
+
     except Exception as e:
-        return f"❌ Exception occurred: {str(e)}"
-
-
-
-
+        return f"❌ Gemini API error: {str(e)}"

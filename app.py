@@ -1,8 +1,22 @@
-import streamlit as st
-from utils import query_gemini
+import os
 import re
 
-API = st.secrets["api_key"]
+import streamlit as st
+
+from utils import query_gemini
+
+
+def get_api_key():
+    """Load the Gemini API key from Streamlit secrets or an environment variable."""
+    try:
+        api_key = st.secrets.get("api_key")
+    except (FileNotFoundError, KeyError):
+        api_key = None
+
+    return api_key or os.getenv("GEMINI_API_KEY")
+
+
+API = get_api_key()
 
 def clean_html(raw_text):
     clean = re.compile('<.*?>')
