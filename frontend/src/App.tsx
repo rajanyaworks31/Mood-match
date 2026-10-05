@@ -280,7 +280,7 @@ function App() {
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL ?? "http://127.0.0.1:8000"}/api/generate`,
+        `${import.meta.env.VITE_API_URL ?? ""}/api/generate`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -308,7 +308,7 @@ function App() {
 
       try {
         const recsResponse = await fetch(
-          `${import.meta.env.VITE_API_URL ?? "http://127.0.0.1:8000"}/api/recommendations`,
+          `${import.meta.env.VITE_API_URL ?? ""}/api/recommendations`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
