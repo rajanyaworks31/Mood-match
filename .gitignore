@@ -16,6 +16,10 @@ backend/.env
 # Build artifacts
 frontend/dist/
 
+# Node dependencies
+node_modules/
+
+
 # Streamlit secrets
 .streamlit/secrets.toml
 
